@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acme Developer Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette: Dark & Modern */
+            --bg-color: #0f172a;
+            /* Very dark slate */
+            --card-bg: #1e293b;
+            /* Slate 800 */
+            --text-primary: #e2e8f0;
+            /* Slate 200 */
+            --text-secondary: #94a3b8;
+            /* Slate 400 */
+            --accent-primary: #6366f1;
+            /* Indigo 500 */
+            --accent-hover: #4f46e5;
+            /* Indigo 600 */
+            --msg-user-bg: #6366f1;
+            /* Accent for user */
+            --msg-user-text: #ffffff;
+            --msg-bot-bg: #334155;
+            /* Slate 700 for bot */
+            --msg-bot-text: #f1f5f9;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Main Container */
+        .app-container {
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(30, 41, 59, 0.95);
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        select {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        select:focus {
+            border-color: var(--accent-primary);
+        }
+
+        button.secondary-btn {
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button.secondary-btn:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        /* Chat Area */
+        #chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            scroll-behavior: smooth;
+        }
+
+        .message-group {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .msg-type-user {
+            align-items: flex-end;
+        }
+
+        .msg-type-bot {
+            align-items: flex-start;
+        }
+
+        .msg-sender {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0 4px;
+        }
+
+        .msg-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .msg-type-user .msg-bubble {
+            background-color: var(--msg-user-bg);
+            color: var(--msg-user-text);
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-type-bot .msg-bubble {
+            background-color: var(--msg-bot-bg);
+            color: var(--msg-bot-text);
+            border-bottom-left-radius: 2px;
+        }
+
+        .sources {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            background-color: var(--input-bg);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--accent-primary);
+        }
+
+        #input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        #sendBtn {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #sendBtn:hover {
+            background-color: var(--accent-hover);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Docs Assistant</h1>
+            <div class="controls">
+                <select id="roleSelect" title="Select User Role">
+                    <option value="visitor">Visitor</option>
+                    <option value="developer">Developer</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button id="reindexBtn" class="secondary-btn" title="Rebuild Documentation Index">
+                    Reindex
+                </button>
+            </div>
+        </header>
+
+        <div id="chat">
+            <!-- Messages will appear here -->
+        </div>
+
+        <div class="input-area">
+            <div class="input-wrapper">
+                <input id="input" type="text" placeholder="Type a question about the API..." autocomplete="off" />
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chat = document.getElementById("chat");
+        const input = document.getElementById("input");
+        const sendBtn = document.getElementById("sendBtn");
+        const roleSelect = document.getElementById("roleSelect");
+        const reindexBtn = document.getElementById("reindexBtn");
+
+        // Initialize role from server template
+        roleSelect.value = "{{ role }}";
+
+        function escapeHtml(str) {
+            return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        }
+
+        function addMessage(who, text, sources) {
+            const isUser = who === 'user';
+
+            const group = document.createElement("div");
+            group.className = `message-group ${isUser ? 'msg-type-user' : 'msg-type-bot'}`;
+
+            const sender = document.createElement("div");
+            sender.className = "msg-sender";
+            sender.textContent = isUser ? "You" : "Assistant";
+
+            const bubble = document.createElement("div");
+            bubble.className = "msg-bubble";
+
+            // Allow basic newlines
+            const formattedText = escapeHtml(text).replace(/\n/g, '<br>');
+            bubble.innerHTML = formattedText;
+
+            if (sources && sources.length) {
+                const s = document.createElement("div");
+                s.className = "sources";
+                s.innerHTML = "<strong>Sources:</strong> " + sources.map(x =>
+                    `${escapeHtml(x.source)} <span style="opacity:0.7">(${x.access}, ${x.score.toFixed(2)})</span>`
+                ).join(" &bull; ");
+                bubble.appendChild(s);
+            }
+
+            group.appendChild(sender);
+            group.appendChild(bubble);
+            chat.appendChild(group);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        async function setRole(role) {
+            try {
+                await fetch("/set-role", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ role })
+                });
+            } catch (e) {
+                console.error("Failed to set role", e);
+            }
+        }
+
+        roleSelect.addEventListener("change", async () => {
+            await setRole(roleSelect.value);
+            addMessage("bot", `Context switched to ${roleSelect.value} role.`, null);
+        });
+
+        reindexBtn.addEventListener("click", async () => {
+            // Visual feedback
+            const originalText = reindexBtn.textContent;
+            reindexBtn.textContent = "Indexing...";
+            reindexBtn.disabled = true;
+
+            try {
+                const r = await fetch("/reindex", { method: "POST" });
+                const j = await r.json();
+                addMessage("bot", `Documentation re-indexed successfully. Loaded ${j.chunks} chunks.`, null);
+            } catch (e) {
+                addMessage("bot", "Failed to reindex documentation.", null);
+            } finally {
+                reindexBtn.textContent = originalText;
+                reindexBtn.disabled = false;
+            }
+        });
+
+        async function send() {
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            input.value = "";
+            addMessage("user", msg, null);
+
+            // Loading state could be added here if needed
+
+            try {
+                const r = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: msg })
+                });
+
+                const j = await r.json();
+                if (!r.ok) {
+                    addMessage("bot", `Error: ${j.error || "Unknown error occurred"}`, null);
+                    return;
+                }
+                addMessage("bot", j.answer, j.sources);
+            } catch (e) {
+                addMessage("bot", "Network error. Please try again.", null);
+            }
+        }
+
+        sendBtn.addEventListener("click", send);
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") send();
+        });
+
+        // Welcome message
+        addMessage("bot", "Hello! I am your Acme API assistant. How can I help you today?", null);
+    </script>
+</body>
+
+</html>
