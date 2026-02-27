@@ -1,0 +1,58 @@
+{% extends "portal_base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active">Overview</a></li>
+            <li><a href="#">User Management</a></li>
+            <li><a href="#">System Logs</a></li>
+            <li><a href="#">Security Audit</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <h2>System Overview</h2>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,240</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45</div>
+                <div class="stat-label">Open Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Security Alerts</div>
+            </div>
+        </div>
+
+        <h3>Recent Activity</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; color: #ddd;">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <th style="text-align: left; padding: 0.5rem;">User</th>
+                <th style="text-align: left; padding: 0.5rem;">Action</th>
+                <th style="text-align: left; padding: 0.5rem;">Time</th>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 0.5rem;">dev_user</td>
+                <td style="padding: 0.5rem;">Committed code to repo/main</td>
+                <td style="padding: 0.5rem;">10 mins ago</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 0.5rem;">admin</td>
+                <td style="padding: 0.5rem;">Updated firewall rules</td>
+                <td style="padding: 0.5rem;">1 hour ago</td>
+            </tr>
+        </table>
+    </main>
+</div>
+{% endblock %}

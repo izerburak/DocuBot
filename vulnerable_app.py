@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Configuration
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2:3b")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama2:7b")
 RULES_FILE = "rules.txt"
 
 def get_system_prompt():

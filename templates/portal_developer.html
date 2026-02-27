@@ -1,0 +1,59 @@
+{% extends "portal_base.html" %}
+
+{% block title %}Developer Portal{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active">Board</a></li>
+            <li><a href="#">Backlog</a></li>
+            <li><a href="#">Releases</a></li>
+            <li><a href="#">Reports</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <h2>Sprint 23 - Active Board</h2>
+        <div class="scrum-board">
+            <div class="column">
+                <h3>To Do</h3>
+                <div class="task-card">
+                    <strong>API Integration</strong>
+                    <br>
+                    <span class="tag high">High Priority</span>
+                </div>
+                <div class="task-card">
+                    <strong>Update Dependencies</strong>
+                    <br>
+                    <span class="tag med">Medium</span>
+                </div>
+            </div>
+            <div class="column">
+                <h3>In Progress</h3>
+                <div class="task-card">
+                    <strong>Fix Login Bug</strong>
+                    <br>
+                    <span class="tag high">Critical</span>
+                </div>
+            </div>
+            <div class="column">
+                <h3>Code Review</h3>
+                <div class="task-card">
+                    <strong>Refactor Auth Module</strong>
+                    <br>
+                    <span class="tag med">Medium</span>
+                </div>
+            </div>
+            <div class="column">
+                <h3>Done</h3>
+                <div class="task-card">
+                    <strong>Initial Setup</strong>
+                    <br>
+                    <span class="tag">Low</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

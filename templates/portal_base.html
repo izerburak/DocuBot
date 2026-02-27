@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexGen Software | {% block title %}Welcome{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal_style.css') }}">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">NexGen Software</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Solutions</a></li>
+            {% if session.get('user') %}
+                <li><a href="/logout" style="color: #ff6b6b;">Logout ({{ session['user'] }})</a></li>
+            {% else %}
+                <li><a href="/login" class="cta-button" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header" onclick="toggleChat()">
+            <h4><span style="font-size: 1.2rem;">🤖</span> NexGen Assistant</h4>
+            <span id="chat-toggle-icon">▼</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                Hello! I am the NexGen virtual assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatWidget = document.getElementById('chatWidget');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        let isOpen = true;
+
+        function toggleChat() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                chatWidget.style.transform = 'translateY(0)';
+                document.getElementById('chat-toggle-icon').innerText = '▼';
+            } else {
+                chatWidget.style.transform = 'translateY(360px)'; // Hide most of it
+                document.getElementById('chat-toggle-icon').innerText = '▲';
+            }
+        }
+
+        // Initialize state (minimized for mobile maybe, but open for demo)
+        // toggleChat(); // Uncomment to start closed
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            addMessage(text, 'user');
+            chatInput.value = '';
+
+            // Show loading or waiting state if needed
+            // addMessage("...", 'bot');
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                
+                const data = await response.json();
+                
+                if (data.answer) {
+                    addMessage(data.answer, 'bot');
+                } else if (data.error) {
+                    addMessage("Error: " + data.error, 'bot');
+                }
+            } catch (err) {
+                addMessage("Connection error. Please try again.", 'bot');
+                console.error(err);
+            }
+        }
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender);
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+</html>

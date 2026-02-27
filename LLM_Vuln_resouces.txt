@@ -1,0 +1,7 @@
+1- https://medium.com/@RosanaFS/vulnerabilities-in-llm-applications-54bf5384a8c1
+
+2- https://quesma.com/blog/local-llms-security-paradox/
+
+3- https://www.youtube.com/watch?v=gKtS5LgHfOM
+
+4 - https://tabulareditor.com/blog/the-dark-side-of-llms-security-risks-in-semantic-model-development

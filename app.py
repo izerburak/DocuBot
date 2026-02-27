@@ -8,7 +8,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key-change-me")
 
 # Ollama
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2:3b")  # change if needed
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama2:7b")  # change if needed
 
 # RAG
 rag = SimpleRAG(docs_root="docs")
